@@ -20,7 +20,7 @@ function olt_display_shortcode_tab($atts,$content)
 	ob_start();
 	if($title):
 		?>
-		<div id="<?php echo trim(str_replace(" ", "-", $title))."-".$olt_tab_shortcode_count; ?>" >
+		<div id="<?php echo ereg_replace("[^A-Za-z0-9]", "", $title)."-".$olt_tab_shortcode_count; ?>" >
 			<?php echo do_shortcode( $content ); ?>
 		</div>
 		<? 
@@ -37,7 +37,7 @@ function olt_display_shortcode_tabs($attr,$content)
 {	
 	// wordpress function 
 	$pattern = get_shortcode_regex();
-	
+	global $olt_tab_shortcode_count;
 	
 
 	// there might be a better way of doing this
@@ -51,14 +51,14 @@ function olt_display_shortcode_tabs($attr,$content)
 			<?php
 				 $tabs = preg_match_all('/'.$pattern.'/s', $content,$matches);
 				 $count = 0;
-				 $tab_count = 0;
+				 $tab_count = $olt_tab_shortcode_count;
 				foreach($matches[2] as $tag):
 					if($tag == "tab"):
 						
 						$attr = shortcode_parse_atts($matches[3][$count]);
 						
 						if($attr['title']):
-						?><li><a href="#<?php echo trim(str_replace(" ", "-", $attr['title']))."-".$tab_count; ?>"><?php echo $attr['title']; ?></a></li>
+						?><li><a href="#<?php echo ereg_replace("[^A-Za-z0-9]", "", $attr['title'])."-".$tab_count; ?>"><?php echo $attr['title']; ?></a></li>
 						<?php
 						endif;
 						 $tab_count++;
