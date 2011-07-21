@@ -24,13 +24,13 @@ function olt_display_shortcode_tab($atts,$content)
 		<div id="<?php echo ereg_replace("[^A-Za-z0-9]", "", $title)."-".$olt_tab_shortcode_count; ?>" >
 			<?php echo do_shortcode( $content ); ?>
 		</div>
-		<? 
+		<?php
 	elseif($post->post_title):
 	?>
 		<div id="<?php echo ereg_replace("[^A-Za-z0-9]", "", $post->post_title)."-".$olt_tab_shortcode_count; ?>" >
 			<?php echo do_shortcode( $content ); ?>
 		</div>
-	<? 
+	<?php
 	else:
 	?>
 		<span style="color:red">Please enter a title attribite like [tab title="title name"]tab content[tab]</span>
