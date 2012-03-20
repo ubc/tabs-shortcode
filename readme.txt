@@ -1,10 +1,10 @@
 === Tabs Shortcode ===
-Contributors: enej, ctltdev, oltdev
+Contributors: enej, ctlt-dev, oltdev
 
 Tags: tab, shortcode
 Requires at least: 3.0
 Tested up to: 3.3
-Stable tag: 1
+Stable tag: 1.0.1
 
 Lets you add tabs to your post and pages using a shortcode. 
 
@@ -28,7 +28,7 @@ by using the following shortcodes
 Here is some sample css to get you started. 
 Another place to look for it would be the http://jqueryui.com/themeroller/, The shortcode used the jQuery UI to generate the tabs. 
 
-'
+`
 /* =tabs
 -------------------------------------------------------------- */
 .ui-tabs {
@@ -121,7 +121,7 @@ Another place to look for it would be the http://jqueryui.com/themeroller/, The 
 .vertical-tabs .ui-tabs-nav li.ui-tabs-selected{
 	padding-bottom:0;
 }
-'
+`
 
 == Changelog ==
 
