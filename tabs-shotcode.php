@@ -1,10 +1,10 @@
 <?php
 /*
 Plugin Name: Tabs Shortcode
-Plugin URI: #TODO
-Description: Create shortcode that enables you to create tabs 
+Plugin URI: http://wordpress.org/extend/plugins/tabs-shortcode/
+Description: Create shortcode that enables you to create tabs on your pages and posts
 Author: CTLT
-Version: 0.6
+Version: 1
 Author URI: http://ctlt.ubc.ca
 */
 global $olt_tab_shortcode_count;

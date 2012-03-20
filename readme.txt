@@ -1,10 +1,10 @@
-=== Plugin Name ===
+=== Tabs Shortcode ===
 Contributors: enej, ctltdev, oltdev
 
 Tags: tab, shortcode
 Requires at least: 3.0
 Tested up to: 3.3
-Stable tag: trunk
+Stable tag: 1
 
 Lets you add tabs to your post and pages using a shortcode. 
 
@@ -12,18 +12,22 @@ Lets you add tabs to your post and pages using a shortcode.
 
 by using the following shortcodes
 
-[tabs]
+`[tabs]
 [tab title="title1"] tab content [/tab]
 [tab title="title2"] another content tab [/tab]
-[/tabs] 
+[/tabs]`
 
 *note* that you need to add css to your themes style sheet to make the tabs look the way you want
 
-== Installation ==
+1. Extract the zip file into wp-content/plugins/ in your WordPress installation
+1. Go to plugins page to activate
+1. Add styles to make the accordion look the way you want. 
 
-regular wordpress install + adding css to your theme.
+== Sample CSS ==
 
-here is some css to get you stated
+Here is some sample css to get you started. 
+Another place to look for it would be the http://jqueryui.com/themeroller/, The shortcode used the jQuery UI to generate the tabs. 
+
 '
 /* =tabs
 -------------------------------------------------------------- */
@@ -120,10 +124,8 @@ here is some css to get you stated
 '
 
 == Changelog ==
-0.6
-* updated reliese with some js options
 
-0.5
-* initial release 
+= 1 =
+* Initial Release 
 
 
