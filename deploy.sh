@@ -5,7 +5,7 @@
 # main config
 PLUGINSLUG="tabs-shortcode"
 CURRENTDIR=`pwd`
-MAINFILE="tabs-shortcode.php" # this should be the name of your main php file in the wordpress plugin
+MAINFILE="tabs-shortcode.php" # this should be the name of your main php file in the WordPress plugin
 
 # git config
 GITPATH="$CURRENTDIR/" # this file should be in the base of your git repository
