@@ -1,7 +1,8 @@
 #! /bin/bash
 # A modification of Dean Clatworthy's deploy script as found here: https://github.com/deanc/wordpress-plugin-git-svn
 # The difference is that this script lives in the plugin's git repo & doesn't require an existing SVN repo.
-
+# chmod u+x deploy.sh
+# ./deploy.sh
 # main config
 PLUGINSLUG="tabs-shortcode"
 CURRENTDIR=`pwd`

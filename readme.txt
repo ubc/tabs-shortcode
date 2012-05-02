@@ -4,7 +4,7 @@ Contributors: enej, ctlt-dev, oltdev
 Tags: tab, shortcode
 Requires at least: 3.0
 Tested up to: 3.3
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 
 Lets you add tabs to your post and pages using a shortcode. 
 
@@ -124,6 +124,9 @@ Another place to look for it would be the http://jqueryui.com/themeroller/, The 
 `
 
 == Changelog ==
+= 1.0.2 =
+* bug fixes now it plays more nicely with other short codes.
+
 
 = 1 =
 * Initial Release 

@@ -4,26 +4,36 @@ Plugin Name: Tabs Shortcode
 Plugin URI: http://wordpress.org/extend/plugins/tabs-shortcode/
 Description: Create shortcode that enables you to create tabs on your pages and posts
 Author: CTLT
-Version: 1.0.1
+Version: 1.0.2
 Author URI: http://ctlt.ubc.ca
 */
-global $olt_tab_shortcode_count;
+global $olt_tab_shortcode_count, $olt_tab_shortcode_tabs;
 $olt_tab_shortcode_count = 0;
 function olt_display_shortcode_tab($atts,$content)
 {
-	global $olt_tab_shortcode_count,$post;
+	global $olt_tab_shortcode_count, $post, $olt_tab_shortcode_tabs;
 	extract(shortcode_atts(array(
 		'title' => null,
 		'class' => null,
 	), $atts));
-	
+		
 	ob_start();
 	
 	if($title):
+		$olt_tab_shortcode_tabs[] = array( 
+			"title" => $title, 
+			"id" => ereg_replace("[^A-Za-z0-9]", "", $title)."-".$olt_tab_shortcode_count,
+			"class" => $class
+		 );
 		?><div id="<?php echo ereg_replace("[^A-Za-z0-9]", "", $title)."-".$olt_tab_shortcode_count; ?>" >
 			<?php echo do_shortcode( $content ); ?>
 		</div><?php
 	elseif($post->post_title):
+		$olt_tab_shortcode_tabs[] = array( 
+			"title" => $post->post_title, 
+			"id" => ereg_replace("[^A-Za-z0-9]", "", $post->post_title)."-".$olt_tab_shortcode_count,
+			"class" =>$class
+		 );
 		?><div id="<?php echo ereg_replace("[^A-Za-z0-9]", "", $post->post_title)."-".$olt_tab_shortcode_count; ?>" >
 			<?php echo do_shortcode( $content ); ?>
 		</div><?php
@@ -36,11 +46,11 @@ function olt_display_shortcode_tab($atts,$content)
 	return ob_get_clean();
 }
 
-function olt_display_shortcode_tabs($attr,$content)
+function olt_display_shortcode_tabs( $attr, $content )
 {
 	// wordpress function 
-	$pattern = get_shortcode_regex();
-	global $olt_tab_shortcode_count,$post;
+	
+	global $olt_tab_shortcode_count,$post, $olt_tab_shortcode_tabs;
 	$vertical_tabs = "";
 	if( isset( $attr['vertical_tabs']) ):
 		$vertical_tabs = ( (bool)$attr['vertical_tabs'] ? "vertical-tabs": "");
@@ -59,38 +69,22 @@ function olt_display_shortcode_tabs($attr,$content)
 	
 	ob_start();
 	?>
-	<div id="<?php echo $id ?>" class="tabs-shortcode <?php echo $vertical_tabs; ?>">
-		<ul>
-			<?php
-				 $tabs = preg_match_all('/'.$pattern.'/s', $content,$matches);
-				 $count = 0;
-				 $tab_count = $olt_tab_shortcode_count;
-				foreach($matches[2] as $tag):
-					if($tag == "tab"):
-						
-						$attr = shortcode_parse_atts($matches[3][$count]);
-						
-						if( $attr['title'] ):
-						?><li <?php if( $attr['class']): ?> class='<?php echo $attr['class'];?>' <?php endif; ?>
-							><a href="#<?php echo ereg_replace("[^A-Za-z0-9]", "", $attr['title'])."-".$tab_count; ?>"><?php echo $attr['title']; ?></a></li>
-						<?php
-						elseif( $post->post_title ):
-							?><li <?php if( $attr['class']): ?> class='<?php echo $attr['class'];?>' <?php endif; ?>
-							><a href="#<?php echo ereg_replace("[^A-Za-z0-9]", "", $post->post_title)."-".$tab_count; ?>"><?php echo $post->post_title; ?></a></li><?php
-						
-						endif;
-						 $tab_count++;
-					endif;
-					$count++;
-				endforeach;
-				
-			?></ul><?php 
-			$content = (substr($content,0,6) =="<br />" ? substr($content,6): $content);
-			$content = str_replace("]<br />","]",$content);
+	<div id="<?php echo $id ?>" class="tabs-shortcode <?php echo $vertical_tabs; ?>"><?php
 		
-			echo do_shortcode( $content );
-			 ?> 
-	</div>
+			$content = (substr($content,0,6) =="<br />" ? substr( $content,6 ): $content);
+			$content = str_replace("]<br />","]",$content);
+			
+			$str = do_shortcode( $content ); ?>
+			<ul>
+			<?php
+			foreach( $olt_tab_shortcode_tabs as $li_tab ): 
+			
+			?><li <?php if( $li_tab['class']): ?> class='<?php echo $li_tab['class'];?>' <?php endif; ?> ><a href="#<?php echo $li_tab['id']; ?>"><?php echo $li_tab['title']; ?></a></li><?php 
+			endforeach;
+			
+			
+				
+			?></ul><?php echo $str; ?></div>
 	<script type="text/javascript"> /* <![CDATA[ */ 
 	jQuery(document).ready(function($) { $("#<?php echo $id ?>").tabs(<?php echo json_encode($query_atts); ?> ); }); 
 	/* ]]> */
