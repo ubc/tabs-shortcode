@@ -4,7 +4,7 @@ Contributors: enej, ctlt-dev, oltdev
 Tags: tab, shortcode
 Requires at least: 3.0
 Tested up to: 3.3
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 
 Lets you add tabs to your post and pages using a shortcode. 
 
@@ -22,6 +22,9 @@ by using the following shortcodes
 1. Extract the zip file into wp-content/plugins/ in your WordPress installation
 1. Go to plugins page to activate
 1. Add styles to make the accordion look the way you want. 
+== Changelog ==
+
+* Bug fix: now you should be able to place multiple tabs shortcodes onto the same page again
 
 == Sample CSS ==
 
