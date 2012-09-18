@@ -4,11 +4,8 @@ Contributors: enej, ctlt-dev, oltdev
 Tags: tab, shortcode
 Requires at least: 3.0
 Tested up to: 3.3
-<<<<<<< HEAD
-Stable tag: 1.0.3
-=======
 Stable tag: 1.1
->>>>>>> master
+
 
 Lets you add tabs to your post and pages using a shortcode. 
 
