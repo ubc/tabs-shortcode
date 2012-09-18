@@ -4,7 +4,8 @@ Plugin Name: Tabs Shortcode
 Plugin URI: http://wordpress.org/extend/plugins/tabs-shortcode/
 Description: Create shortcode that enables you to create tabs on your pages and posts
 Author: CTLT
-Version: 1.1
+Version: 1.1.1
+
 Author URI: http://ctlt.ubc.ca
 */
 
@@ -84,6 +85,7 @@ class OLT_Tab_Shortcode {
 	public static function tabs_shortcode( $atts, $content ) {
 		
 		self::$add_script = true;
+
 		if( is_string($atts) )
 			$atts = array();
 			
@@ -144,11 +146,7 @@ class OLT_Tab_Shortcode {
 		return ( (string) $item == 'false' || (string)$item == 'null'  || (string)$item == '0' || empty($item)   ? false : true );
 	}
 	
-	static function eval_int( $item ){
-		return (int)$item;
-	}
-	
-	
+
 	/**
 	 * register_script function.
 	 * 
@@ -181,3 +179,4 @@ class OLT_Tab_Shortcode {
 }
 // lets play
 OLT_Tab_Shortcode::init();
+
