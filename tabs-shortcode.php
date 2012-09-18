@@ -4,114 +4,176 @@ Plugin Name: Tabs Shortcode
 Plugin URI: http://wordpress.org/extend/plugins/tabs-shortcode/
 Description: Create shortcode that enables you to create tabs on your pages and posts
 Author: CTLT
-Version: 1.0.3
+Version: 1.1
 Author URI: http://ctlt.ubc.ca
 */
-global $olt_tab_shortcode_count, $olt_tab_shortcode_tabs;
-$olt_tab_shortcode_count = 0;
-function olt_display_shortcode_tab($atts,$content)
-{
-	global $olt_tab_shortcode_count, $post, $olt_tab_shortcode_tabs;
-	extract(shortcode_atts(array(
-		'title' => null,
-		'class' => null,
-	), $atts));
-		
-	ob_start();
-	
-	if($title):
-		$olt_tab_shortcode_tabs[] = array( 
-			"title" => $title, 
-			"id" => ereg_replace("[^A-Za-z0-9]", "", $title)."-".$olt_tab_shortcode_count,
-			"class" => $class
-		 );
-		?><div id="<?php echo ereg_replace("[^A-Za-z0-9]", "", $title)."-".$olt_tab_shortcode_count; ?>" >
-			<?php echo do_shortcode( $content ); ?>
-		</div><?php
-	elseif($post->post_title):
-		$olt_tab_shortcode_tabs[] = array( 
-			"title" => $post->post_title, 
-			"id" => ereg_replace("[^A-Za-z0-9]", "", $post->post_title)."-".$olt_tab_shortcode_count,
-			"class" =>$class
-		 );
-		?><div id="<?php echo ereg_replace("[^A-Za-z0-9]", "", $post->post_title)."-".$olt_tab_shortcode_count; ?>" >
-			<?php echo do_shortcode( $content ); ?>
-		</div><?php
-	else:
-		?>
-		<span style="color:red">Please enter a title attribute like [tab title="title name"]tab content[tab]</span>
-		<?php 	
-	endif;
-	$olt_tab_shortcode_count++;
-	return ob_get_clean();
-}
 
-function olt_display_shortcode_tabs( $attr, $content )
-{
-	// wordpress function 
+/**
+ * OLT_Tab_Shortcode class.
+ */
+class OLT_Tab_Shortcode {
 	
-	global $olt_tab_shortcode_count,$post, $olt_tab_shortcode_tabs;
-	$vertical_tabs = "";
-	if( isset( $attr['vertical_tabs']) ):
-		$vertical_tabs = ( (bool)$attr['vertical_tabs'] ? "vertical-tabs": "");
-		unset($attr['vertical_tabs']);
-	endif;
+	static $add_script;
+	static $shortcode_count;
+	static $shortcode_data;
+	static $shortcode_js_data;
+	static $current_tab_id;
 	
-	// $attr['disabled'] =     (bool)$attr['disabled'];
-	$attr['collapsible'] =  (bool)$attr['collapsible'];
-	$query_atts = shortcode_atts(
-		array( 
-			'collapsible'	=> false,
-			'event'			=>'click',
-		), $attr);
-	// there might be a better way of doing this
-	$id = "random-tab-id-".rand(0,1000);
+	/**
+	 * init function.
+	 * 
+	 * @access public
+	 * @static
+	 * @return void
+	 */
+	static function init() {
+
+		add_shortcode('tab', array(__CLASS__, 'tab_shortcode'));
+		add_shortcode('tabs', array(__CLASS__, 'tabs_shortcode'));
+
+		add_action('init', array(__CLASS__, 'register_script'));
+		add_action('wp_footer', array(__CLASS__, 'print_script'));
+		
+		self::$shortcode_count = 0;
+
+	}
 	
-	ob_start();
-	?>
-	<div id="<?php echo $id ?>" class="tabs-shortcode <?php echo $vertical_tabs; ?>"><?php
+	/**
+	 * tab_shortcode function.
+	 * 
+	 * @access public
+	 * @static
+	 * @param mixed $atts
+	 * @param mixed $content
+	 * @return void
+	 */
+	public static  function tab_shortcode( $atts, $content ) {
+		global $post;
+		
+		extract(shortcode_atts(array(
+					'title' => null,
+					'class' => null,
+				), $atts) );
+		
+		// 
+		$class_atr  = ( empty( $class ) ? '' : 'class=" '.$class.' "' );
+		$title 		= ( empty( $title ) ? $post->post_title : $title );
+		$id 		= ereg_replace("[^A-Za-z0-9]", "", $title )."-".self::$shortcode_count;
+		
+		if( empty( $title ) )
+			return '<span style="color:red">Please enter a title attribute like [tab title="title name"]tab content[tab]</span>';
+		
+		self::$shortcode_data[  self::$current_tab_id ][] = array( 'title' => $title, 'id' => $id , 'class' => $class );
+		
+		self::$shortcode_count++;
+
+		return '<div id="'.$id.'" '.$class_atr.' >'. do_shortcode( $content ). '</div>';
+		
+	}
+	
+	
+	/**
+	 * tabs_shortcode function.
+	 * 
+	 * @access public
+	 * @static
+	 * @param mixed $atts
+	 * @param mixed $content
+	 * @return void
+	 */
+	public static function tabs_shortcode( $atts, $content ) {
+		
+		self::$add_script = true;
+		
+		if( isset( $attr['vertical_tabs']) ):
+			$vertical_tabs = ( self::eval_bool( $atts['vertical_tabs'] ) ? "vertical-tabs": "");
+			unset($attr['vertical_tabs']);
+		endif;
+	
+		// optional attributes
+		$attr['collapsible'] =  self::eval_bool( $attr['collapsible'] );
+		$attr['selected']  	=   (int)$atts['selected'];
+		
+		
+		$query_atts = shortcode_atts( array(
+				'collapsible'	=> false,
+				'selected' 		=> 0,
+				'event'   		=> 'click',
+				
+			), $attr );
+		
+		self::$current_tab_id = "random-tab-id-".rand(0,1000);
+		
+		$content = str_replace( "]<br />","]", ( substr( $content, 0 , 6 ) == "<br />" ? substr( $content, 6 ): $content ) );
+
+		self::$shortcode_js_data[ self::$current_tab_id ] = $query_atts;
+		
+		$individual_tabs = do_shortcode( $content );
+		
+		ob_start();
+		?>
+		<div id="<?php echo self::$current_tab_id ?>" class="tabs-shortcode <?php echo $vertical_tabs; ?>"><?php
 		
 			$content = (substr($content,0,6) =="<br />" ? substr( $content,6 ): $content);
-			$content = str_replace("]<br />","]",$content);
-			
-			$str = do_shortcode( $content ); ?>
+			$content = str_replace("]<br />","]",$content); ?>
 			<ul>
 			<?php
-			foreach( $olt_tab_shortcode_tabs as $li_tab ): 
-			
-			?><li <?php if( $li_tab['class']): ?> class='<?php echo $li_tab['class'];?>' <?php endif; ?> ><a href="#<?php echo $li_tab['id']; ?>"><?php echo $li_tab['title']; ?></a></li><?php 
+			foreach( self::$shortcode_data[self::$current_tab_id] as $tab_data ): ?>
+				<li <?php if( $tab_data['class']): ?> class='<?php echo $tab_data['class'];?>' <?php endif; ?> ><a href="#<?php echo $tab_data['id']; ?>"><?php echo $tab_data['title']; ?></a></li><?php 
 			endforeach;
 			
-			
-				
-			?></ul><?php echo $str; ?></div>
-	<script type="text/javascript"> /* <![CDATA[ */ 
-	jQuery(document).ready(function($) { $("#<?php echo $id ?>").tabs(<?php echo json_encode($query_atts); ?> ); }); 
-	/* ]]> */
-	</script>
+			?></ul><?php 
+			// display the 
+			echo $individual_tabs; ?></div><?php
+					
+		return str_replace("\r\n", '', ob_get_clean() );
 
-	<?php
-	$post_content = ob_get_clean();
+	}
 	
-	$olt_tab_shortcode_tabs = array();
+	/**
+	 * eval_bool function.
+	 * 
+	 * @access public
+	 * @static
+	 * @param mixed $item
+	 * @return void
+	 */
+	static function eval_bool( $item ) {
+		
+		return ( (string) $item == 'false' || (string)$item == 'null'  || (string)$item == '0' || empty($item)   ? false : true );
+	}
 	
-	wp_enqueue_script('jquery');
-    wp_enqueue_script('jquery-ui-core');
-    wp_enqueue_script('jquery-ui-tabs');
-	return str_replace("\r\n", '',$post_content);
+	
+	/**
+	 * register_script function.
+	 * 
+	 * @access public
+	 * @static
+	 * @return void
+	 */
+	static function register_script() {
+		wp_register_script( 'tab-shortcode' , plugins_url('tab.js', __FILE__), array('jquery', 'jquery-ui-core', 'jquery-ui-tabs'), '1.0', true );
+	}
+	
+	/**
+	 * print_script function.
+	 * 
+	 * @access public
+	 * @static
+	 * @return void
+	 */
+	static function print_script() {
+		
+		if ( ! self::$add_script )
+			return;
+		
+		wp_enqueue_script( 'tab-shortcode' );
+		wp_localize_script( 'tab-shortcode', 'tabs_shortcode', self::$shortcode_js_data );
+		wp_enqueue_script('jquery');
+    	wp_enqueue_script('jquery-ui-core');
+    	wp_enqueue_script('jquery-ui-tabs');
+	}
 }
+// lets play
+OLT_Tab_Shortcode::init();
 
-
-function olt_tabs_shortcode_init() {
-    
-    add_shortcode('tab', 'olt_display_shortcode_tab'); // Individual tab
-    add_shortcode('tabs', 'olt_display_shortcode_tabs'); // The shell
-       
-    // Move wpautop to priority 12 (after do_shortcode)
-    /* 
-     remove_filter('the_content','wpautop', 10);
-     add_filter('the_content','wpautop', 12);
-    */
-}
-
-add_action('init','olt_tabs_shortcode_init');
