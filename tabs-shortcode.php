@@ -4,7 +4,7 @@ Plugin Name: Tabs Shortcode
 Plugin URI: http://wordpress.org/extend/plugins/tabs-shortcode/
 Description: Create shortcode that enables you to create tabs on your pages and posts
 Author: CTLT
-Version: 1.1
+Version: 1.1.1
 Author URI: http://ctlt.ubc.ca
 */
 
@@ -84,16 +84,7 @@ class OLT_Tab_Shortcode {
 	public static function tabs_shortcode( $atts, $content ) {
 		
 		self::$add_script = true;
-<<<<<<< HEAD
-		
-		if( isset( $attr['vertical_tabs']) ):
-			$vertical_tabs = ( self::eval_bool( $atts['vertical_tabs'] ) ? "vertical-tabs": "");
-			unset($attr['vertical_tabs']);
-		endif;
-	
-		// optional attributes
-		$attr['collapsible'] =  self::eval_bool( $attr['collapsible'] );
-=======
+
 		if( is_string($atts) )
 			$atts = array();
 			
@@ -104,7 +95,6 @@ class OLT_Tab_Shortcode {
 			
 		// optional attributes
 		$attr['collapsible'] =  self::eval_bool( $atts['collapsible'] );
->>>>>>> master
 		$attr['selected']  	=   (int)$atts['selected'];
 		
 		
@@ -112,10 +102,6 @@ class OLT_Tab_Shortcode {
 				'collapsible'	=> false,
 				'selected' 		=> 0,
 				'event'   		=> 'click',
-<<<<<<< HEAD
-				
-=======
->>>>>>> master
 			), $attr );
 		
 		self::$current_tab_id = "random-tab-id-".rand(0,1000);
@@ -159,14 +145,6 @@ class OLT_Tab_Shortcode {
 		return ( (string) $item == 'false' || (string)$item == 'null'  || (string)$item == '0' || empty($item)   ? false : true );
 	}
 	
-<<<<<<< HEAD
-=======
-	static function eval_int( $item ){
-		return (int)$item;
-	}
-	
->>>>>>> master
-	
 	/**
 	 * register_script function.
 	 * 
@@ -198,9 +176,5 @@ class OLT_Tab_Shortcode {
 	}
 }
 // lets play
-<<<<<<< HEAD
 OLT_Tab_Shortcode::init();
 
-=======
-OLT_Tab_Shortcode::init();
->>>>>>> master
