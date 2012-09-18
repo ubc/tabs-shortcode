@@ -84,14 +84,16 @@ class OLT_Tab_Shortcode {
 	public static function tabs_shortcode( $atts, $content ) {
 		
 		self::$add_script = true;
-		
-		if( isset( $attr['vertical_tabs']) ):
+		if( is_string($atts) )
+			$atts = array();
+			
+		if( isset( $atts['vertical_tabs']) ):
 			$vertical_tabs = ( self::eval_bool( $atts['vertical_tabs'] ) ? "vertical-tabs": "");
-			unset($attr['vertical_tabs']);
+			unset($atts['vertical_tabs']);
 		endif;
-	
+			
 		// optional attributes
-		$attr['collapsible'] =  self::eval_bool( $attr['collapsible'] );
+		$attr['collapsible'] =  self::eval_bool( $atts['collapsible'] );
 		$attr['selected']  	=   (int)$atts['selected'];
 		
 		
@@ -99,7 +101,6 @@ class OLT_Tab_Shortcode {
 				'collapsible'	=> false,
 				'selected' 		=> 0,
 				'event'   		=> 'click',
-				
 			), $attr );
 		
 		self::$current_tab_id = "random-tab-id-".rand(0,1000);
@@ -141,6 +142,10 @@ class OLT_Tab_Shortcode {
 	static function eval_bool( $item ) {
 		
 		return ( (string) $item == 'false' || (string)$item == 'null'  || (string)$item == '0' || empty($item)   ? false : true );
+	}
+	
+	static function eval_int( $item ){
+		return (int)$item;
 	}
 	
 	
