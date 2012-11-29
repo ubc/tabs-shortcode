@@ -4,7 +4,7 @@ Contributors: enej, ctlt-dev, oltdev
 Tags: tab, shortcode
 Requires at least: 3.4
 Tested up to: 3.5
-Stable tag: 2
+Stable tag: 2.0
 License: GPLv2 or later
 
 
@@ -56,16 +56,16 @@ This will tell the plugin to not include tab styling to your theme.
  
 == Frequently Asked Questions ==
 
-**How to get rid of unwanted <p> tags**
+=How to get rid of unwanted `<p>` tags=
 Get rid of unneeded white space inside your shortcode 
 
 
-**My theme already has styling for tabs how can I remove the default stying**
+=My theme already has styling for tabs how can I remove the default styling=
 Easy. Add the line `add_theme_support( 'tabs', 'style-only' );` to you functions.php file. Preferably somewhere in a function that is being called by the after theme setup action
  `add_action('after_setup_theme','bones_theme_support');` 
 
 
-**I am using the twitter bootstrap framework how do I make sure that the tabs work with it.**
+=I am using the twitter bootstrap framework how do I make sure that the tabs work with it.=
 The shortcode support the twitter bootstrap framework. 
 `add_theme_support( 'tabs', 'twitter-bootstrap' );`
 

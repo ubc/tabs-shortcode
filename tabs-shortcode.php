@@ -4,7 +4,7 @@ Plugin Name: Tabs Shortcode
 Plugin URI: http://wordpress.org/extend/plugins/tabs-shortcode/
 Description: Create shortcode that enables you to create tabs on your pages and posts
 Author: CTLT
-Version: 1.1.1
+Version: 2
 Author URI: http://ctlt.ubc.ca
 */
 
@@ -236,7 +236,7 @@ class OLT_Tab_Shortcode {
     	}
     	
     	if( self::$tabs_support[0] == 'twitter-bootstrap' ) {
-    		var_dump('win');
+    		
     		wp_enqueue_script( 'twitter-tab-shortcode' );
 			
     	}
