@@ -127,7 +127,8 @@ See the FAQ on how to deal with that case.
 	padding:0;
 }
 
-.tabs-shortcode.ui-tabs .ui-tabs-nav li.ui-tabs-active {
+.tabs-shortcode.ui-tabs .ui-tabs-nav li.ui-tabs-active,
+.tabs-shortcode.ui-tabs .ui-tabs-nav li.ui-tabs-selected {
 	background:#FFF;
 	color:#111;
 }
@@ -145,13 +146,15 @@ See the FAQ on how to deal with that case.
 }
 
 .tabs-shortcode.ui-tabs .ui-tabs-nav li.ui-tabs-active a,
+.tabs-shortcode.ui-tabs .ui-tabs-nav li.ui-tabs-selected a,
 .tabs-shortcode.ui-tabs .ui-tabs-nav li.ui-state-disabled a,
 .tabs-shortcode.ui-tabs .ui-tabs-nav li.ui-state-processing a {
 	cursor: default;
 }
 
 .tabs-shortcode .ui-tabs-nav li a,
-.tabs-shortcode.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-active a {
+.tabs-shortcode.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-active a,
+.tabs-shortcode.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a {
 	cursor:pointer;
 }
 
@@ -185,7 +188,8 @@ See the FAQ on how to deal with that case.
 .tabs-shortcode-top .ui-tabs-nav{
 	border-bottom: 1px solid #CCC;
 }
-.tabs-shortcode-top .ui-tabs-nav li.ui-tabs-active {
+.tabs-shortcode-top .ui-tabs-nav li.ui-tabs-active,
+.tabs-shortcode-top .ui-tabs-nav li.ui-tabs-selected {
 	padding-bottom:1px!important;
 	border-bottom:0;
 	margin:1px .3em -1px 0!important;
@@ -199,7 +203,8 @@ See the FAQ on how to deal with that case.
 .tabs-shortcode-bottom .ui-tabs-nav{
 	border-top: 1px solid #CCC;
 }
-.tabs-shortcode-bottom .ui-tabs-nav li.ui-tabs-active {
+.tabs-shortcode-bottom .ui-tabs-nav li.ui-tabs-active,
+.tabs-shortcode-bottom .ui-tabs-nav li.ui-tabs-selected {
 	padding-top:1px!important;
 	border-top:0;
 	margin:-1px .3em 1px 0!important;
@@ -248,7 +253,8 @@ See the FAQ on how to deal with that case.
 .tabs-shortcode-left .ui-tabs-nav li{
 	float: left;
 }
-.tabs-shortcode-left .ui-tabs-nav li.ui-tabs-active {
+.tabs-shortcode-left .ui-tabs-nav li.ui-tabs-active,
+.tabs-shortcode-left .ui-tabs-nav li.ui-tabs-selected {
 	padding-right:1px;
 	border-right:0;
 	margin:0 1px 0.3em 0;
@@ -263,7 +269,8 @@ See the FAQ on how to deal with that case.
 .tabs-shortcode-right .ui-tabs-nav li{
 	float: right;
 }
-.tabs-shortcode-right .ui-tabs-nav li.ui-tabs-active {
+.tabs-shortcode-right .ui-tabs-nav li.ui-tabs-active,
+.tabs-shortcode-right .ui-tabs-nav li.ui-tabs-selected {
 	padding-left:1px;
 	border-left:0;
 	margin:0 0 0.3em 1px;
