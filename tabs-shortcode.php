@@ -4,7 +4,7 @@ Plugin Name: Tabs Shortcode
 Plugin URI: http://wordpress.org/extend/plugins/tabs-shortcode/
 Description: Create shortcode that enables you to create tabs on your pages and posts
 Author: CTLT
-Version: 2
+Version: 2.0.1
 Author URI: http://ctlt.ubc.ca
 */
 
@@ -109,6 +109,8 @@ class OLT_Tab_Shortcode {
 		if( isset( $atts['vertical_tabs'] ) ):
 			$vertical_tabs = ( self::eval_bool( $atts['vertical_tabs'] ) ? "vertical-tabs": "");
 			unset($atts['vertical_tabs']);
+		else:
+			$vertical_tabs = "";
 		endif;
 		
 		if( isset( $atts['position'] )  && in_array( $atts['position'], array( 'top', 'bottom', 'left', 'right' ) ) ):
@@ -118,8 +120,9 @@ class OLT_Tab_Shortcode {
 		endif;
 		
 		// optional attributes
-		$attr['collapsible'] =  self::eval_bool( $atts['collapsible'] );
-		$attr['selected']  	=   (int)$atts['selected'];
+		
+		$attr['collapsible'] =  ( isset($atts['collapsible']) ? self::eval_bool( $atts['collapsible'] ) : false );
+		$attr['selected']  	=   ( isset($atts['selected']) ? (int)$atts['selected'] : 0);
 		
 		
 		
