@@ -123,8 +123,7 @@ class OLT_Tab_Shortcode {
 		
 		$attr['collapsible'] =  ( isset($atts['collapsible']) ? self::eval_bool( $atts['collapsible'] ) : false );
 		$attr['selected']  	=   ( isset($atts['selected']) ? (int)$atts['selected'] : 0);
-		
-		
+		$attr['event']  	=   ( isset($atts['event']) && in_array($atts['event'], array('click', 'mouseover') ) ? $atts['event'] : 'click');
 		
 		self::$current_active_content = $attr['selected'] + self::$shortcode_count;
 		
