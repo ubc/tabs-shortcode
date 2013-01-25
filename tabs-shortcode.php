@@ -1,11 +1,29 @@
 <?php
-/*
-Plugin Name: Tabs Shortcode
-Plugin URI: http://wordpress.org/extend/plugins/tabs-shortcode/
-Description: Create shortcode that enables you to create tabs on your pages and posts
-Author: CTLT
-Version: 2.0.1
-Author URI: http://ctlt.ubc.ca
+/**
+* Plugin Name: Tabs Shortcode
+* Plugin URI: http://wordpress.org/extend/plugins/tabs-shortcode/
+* Description: Create shortcode that enables you to create tabs on your pages and posts
+* Author: CTLT
+* Version: 2.0.2
+* Author URI: http://ctlt.ubc.ca
+
+* This program is free software; you can redistribute it and/or modify it under the terms of the GNU 
+* General Public License as published by the Free Software Foundation; either version 2 of the License, 
+* or (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without 
+* even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+*
+* You should have received a copy of the GNU General Public License along with this program; if not, write 
+* to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA * This program is free software; you can redistribute it and/or modify it under the terms of the GNU 
+* General Public License as published by the Free Software Foundation; either version 2 of the License, 
+* or (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without 
+* even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+*
+* You should have received a copy of the GNU General Public License along with this program; if not, write 
+* to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
 /**
@@ -22,8 +40,33 @@ class OLT_Tab_Shortcode {
 	
 	static $tabs_support;
 	
-	// static 
 	
+	/**
+	* has_shortcode function.
+	*
+	* @access public
+	* @param mixed $shortcode
+	* @return void
+	*/
+	function has_shortcode( $shortcode ) {
+		global $shortcode_tags;
+	
+		return ( in_array( $shortcode, array_keys ( $shortcode_tags ) ) ? true : false);
+	}
+
+	/**
+	* add_shortcode function.
+	*
+	* @access public
+	* @param mixed $shortcode
+	* @param mixed $shortcode_function
+	* @return void
+	*/
+	function add_shortcode( $shortcode, $shortcode_function ) {
+	
+	if( !self::has_shortcode( $shortcode ) )
+		add_shortcode( $shortcode, array( __CLASS__, $shortcode_function ) );
+	}
 	/**
 	 * init function.
 	 * 
@@ -33,8 +76,9 @@ class OLT_Tab_Shortcode {
 	 */
 	static function init() {
 
-		add_shortcode( 'tab', array(__CLASS__, 'tab_shortcode' ) );
-		add_shortcode( 'tabs', array(__CLASS__, 'tabs_shortcode' ) );
+		self::add_shortcode( 'tab', 'tab_shortcode' );
+		self::add_shortcode( 'tabs', 'tabs_shortcode' );
+		
 
 		add_action( 'init', array(__CLASS__, 'register_script_and_style' ) );
 		add_action( 'wp_footer', array(__CLASS__, 'print_script' ) );
@@ -199,14 +243,15 @@ class OLT_Tab_Shortcode {
 	static function register_script_and_style() {
 		self::$tabs_support = get_theme_support('tabs');
 		
+		$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 		
-		wp_register_style( 'tab-shortcode',  plugins_url('tab.css', __FILE__) );
-		wp_register_script( 'tab-shortcode' , plugins_url('tab.js', __FILE__), array('jquery', 'jquery-ui-core', 'jquery-ui-tabs'), '1.0', true );
+		wp_register_style( 'tab-shortcode',  plugins_url('tab'.$suffix.'.css', __FILE__) );
+		wp_register_script( 'tab-shortcode' , plugins_url('tab'.$suffix.'.js', __FILE__), array('jquery', 'jquery-ui-core', 'jquery-ui-tabs'), '1.0', true );
 		
 		if( self::$tabs_support[0] == 'twitter-bootstrap' ):
 			require_once( 'support/twitter-bootstrap/action.php' );
 			
-			wp_register_script( 'twitter-tab-shortcode' , plugins_url('support/twitter-bootstrap/twitter.bootstrap.tabs.js', __FILE__), array( 'jquery' ), '1.0', true );
+			wp_register_script( 'twitter-tab-shortcode' , plugins_url('support/twitter-bootstrap/twitter.bootstrap.tabs'.$suffix.'.js', __FILE__), array( 'jquery' ), '1.0', true );
 		
 		endif;
 		

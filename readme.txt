@@ -1,12 +1,10 @@
 === Tabs Shortcode ===
 Contributors: enej, ctlt-dev, oltdev
-
 Tags: tab, shortcode
 Requires at least: 3.4
 Tested up to: 3.5
-Stable tag: 2.0
+Stable tag: 2.0.2
 License: GPLv2 or later
-
 
 Lets you add tabs to your post and pages using a shortcode. 
 
@@ -68,6 +66,12 @@ Easy. Add the line `add_theme_support( 'tabs', 'style-only' );` to you functions
 =I am using the twitter bootstrap framework how do I make sure that the tabs work with it.=
 The shortcode support the twitter bootstrap framework. 
 `add_theme_support( 'tabs', 'twitter-bootstrap' );`
+
+= How can I contribute to this plugin =
+If you must ask. Checkout the source code at https://github.com/ubc/tabs-shortcode
+
+Feel free to submit pull requests. 
+
 
 **note**: The twitter bootstrap framework doesn't use the jquery ui tab javascript.
 
@@ -278,6 +282,9 @@ See the FAQ on how to deal with that case.
 `
 
 == Changelog ==
+= 2.0.2 =
+* Minified files so that things are load even faster, saving tree though bandwidth.
+
 = 2.0.1 =
 * Bug fixes: Removes notices
 * updated to styles better with version jQuery 1.9
