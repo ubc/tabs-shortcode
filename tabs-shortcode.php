@@ -119,7 +119,7 @@ class OLT_Tab_Shortcode {
 		$class = apply_filters( "tabs-shortcode-content-panel-class", $class, $selected );
 		$class_atr  = ( empty( $class ) ? '' : 'class=" '.$class.' "' );
 		$title 		= ( empty( $title ) ? $post->post_title : $title );
-		$id 		= ereg_replace("[^A-Za-z0-9]", "", $title )."-".self::$shortcode_count;
+		$id 		= preg_replace("/[^A-Za-z0-9]/", "", $title )."-".self::$shortcode_count;
 		
 		
 		if( empty( $title ) )
