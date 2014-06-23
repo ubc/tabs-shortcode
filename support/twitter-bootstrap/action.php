@@ -12,10 +12,14 @@
  * @param mixed $content_shell
  * @return void
  */
-function tabs_shortcode_twitter_content_shell( $content_shell ) {
-	return  '<div class="tab-content">'.$content_shell.'</div>';
+function tabs_shortcode_twitter_content_shell( $content_shell, $mobile_accordion ) {
+	if ($mobile_accordion == 1) :
+		return  '<div class="tab-content responsive">'.$content_shell.'</div>';
+	elseif ($mobile_accordion == 0): 
+		return  '<div class="tab-content">'.$content_shell.'</div>';
+	endif;
 }
-add_filter( 'tabs-shortcode-content-shell', 'tabs_shortcode_twitter_content_shell' );
+add_filter( 'tabs-shortcode-content-shell', 'tabs_shortcode_twitter_content_shell', 10, 2 );
 
 
 /**
@@ -54,10 +58,15 @@ add_filter( 'tabs-shortcode-shell-class', 'tabs_shortcode_twitter_shell_class', 
  * @param mixed $list_class
  * @return void
  */
-function tabs_shortcode_twitter_list_shell( $list_class ) {
-	return "nav nav-tabs";
+function tabs_shortcode_twitter_list_shell( $list_class, $mobile_accordion ) {
+	
+	if ($mobile_accordion == 1) :
+		return "nav nav-tabs responsive";
+	elseif ($mobile_accordion == 0): 
+		return "nav nav-tabs";
+	endif;
 }
-add_filter( 'tabs-shortcode-list-class', 'tabs_shortcode_twitter_list_shell' );
+add_filter( 'tabs-shortcode-list-class', 'tabs_shortcode_twitter_list_shell', 10, 2 );
 
 
 /**

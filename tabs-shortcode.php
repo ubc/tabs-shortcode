@@ -4,7 +4,7 @@
 * Plugin URI: http://wordpress.org/extend/plugins/tabs-shortcode/
 * Description: Create shortcode that enables you to create tabs on your pages and posts
 * Author: CTLT
-* Version: 2.0.2
+* Version: 2.0.3
 * Author URI: http://ctlt.ubc.ca
 
 * This program is free software; you can redistribute it and/or modify it under the terms of the GNU 
@@ -163,31 +163,36 @@ class OLT_Tab_Shortcode {
 			$position = ( empty($vertical_tabs) ? 'top' : 'left');
 		endif;
 		
+
 		// optional attributes
 		
-		$attr['collapsible'] =  ( isset($atts['collapsible']) ? self::eval_bool( $atts['collapsible'] ) : false );
-		$attr['selected']  	=   ( isset($atts['selected']) ? (int)$atts['selected'] : 0);
-		$attr['event']  	=   ( isset($atts['event']) && in_array($atts['event'], array('click', 'mouseover') ) ? $atts['event'] : 'click');
+		$attr['collapsible'] 	=  	( isset($atts['collapsible']) ? self::eval_bool( $atts['collapsible'] ) : false );
+		$attr['selected']  		=   ( isset($atts['selected']) ? (int)$atts['selected'] : 0);
+		$attr['event']  		=   ( isset($atts['event']) && in_array($atts['event'], array('click', 'mouseover') ) ? $atts['event'] : 'click');
+		$attr['accordion'] 		=  	( isset($atts['accordion']) ? self::eval_bool( $atts['accordion'] ) : true );
 		
 		self::$current_active_content = $attr['selected'] + self::$shortcode_count;
 		
 		$query_atts = shortcode_atts( array(
 				'collapsible'	=> false,
+				'accordion'		=> true,				
 				'selected' 		=> 0,
 				'event'   		=> 'click',
 			), $attr );
-		
+		// Set Accordion for mobile var
+		$mobile_accordion = $attr['accordion'];
+
 		self::$current_tab_id = "random-tab-id-".rand(0,1000);
 		
 		$content = str_replace( "]<br />","]", ( substr( $content, 0 , 6 ) == "<br />" ? substr( $content, 6 ): $content ) );
 		
 		self::$shortcode_js_data[ self::$current_tab_id ] = $query_atts;
 		
-		$individual_tabs = do_shortcode( $content );
-		$individual_tabs = apply_filters( 'tabs-shortcode-content-shell', $individual_tabs );
+		$individual_tabs = do_shortcode( $content, $mobile_accordion );
+		$individual_tabs = apply_filters( 'tabs-shortcode-content-shell', $individual_tabs, $mobile_accordion );
 		
 		$shell_class = apply_filters( 'tabs-shortcode-shell-class', "tabs-shortcode ". $vertical_tabs." tabs-shortcode-".$position, $position );
-		$list_class  = apply_filters( 'tabs-shortcode-list-class', "tabs-shortcode-list" );
+		$list_class  = apply_filters( 'tabs-shortcode-list-class', "tabs-shortcode-list", $mobile_accordion );
 		
 		$list_attr   = apply_filters( 'tabs-shortcode-list-attr', ''); // don't 
 		$list_link_attr   = apply_filters( 'tabs-shortcode-list-link-attr', ''); // don't 

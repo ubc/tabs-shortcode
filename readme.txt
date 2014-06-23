@@ -33,11 +33,24 @@ another content tab
 [/tab]
 [/tabs]`
 
+
+To turn off accordion is smaller screen sizes:
+
+`[tabs accordion="false"]
+[tab title="title1"] tab content 
+tab content 
+[/tab]
+[tab title="title2"] 
+another content tab 
+[/tab]
+[/tabs]`
+
 * collapsible = true or false - weather the tabs should be allowed to be collapsed - this doesn't work with twitter bootstrap 
 * selected = integer for example - what tab should be selected. 0 means the first tab. 1 means the second tab etc. 
 * event = 'click' or 'mouseover' - does do you user need to click on the tab or just mouse over to get to the content. Tip: Don't use mouseover if you are concerned with mobile. 
 * position = 'top' , 'bottom' , 'left', 'right' on what side do you want the tabs to appear. See screenshots for an example. 
 * vertical_tabs = true or false - depreciated is the same as position = left
+* accordion = true (default) of false - false will turn off accordion in smaller screen sizes 
 
 
 == Installation ==
@@ -282,6 +295,9 @@ See the FAQ on how to deal with that case.
 `
 
 == Changelog ==
+= 2.0.3 =
+* updated js to convert tabs to accordion in smaller screen sizes
+
 = 2.0.2 =
 * Minified files so that things are load even faster, saving tree though bandwidth.
 
