@@ -48,7 +48,7 @@ class OLT_Tab_Shortcode {
 	* @param mixed $shortcode
 	* @return void
 	*/
-	function has_shortcode( $shortcode ) {
+	public static function has_shortcode( $shortcode ) {
 		global $shortcode_tags;
 	
 		return ( in_array( $shortcode, array_keys ( $shortcode_tags ) ) ? true : false);
@@ -62,7 +62,7 @@ class OLT_Tab_Shortcode {
 	* @param mixed $shortcode_function
 	* @return void
 	*/
-	function add_shortcode( $shortcode, $shortcode_function ) {
+	public static function add_shortcode( $shortcode, $shortcode_function ) {
 	
 	if( !self::has_shortcode( $shortcode ) )
 		add_shortcode( $shortcode, array( __CLASS__, $shortcode_function ) );
