@@ -198,18 +198,21 @@ class OLT_Tab_Shortcode {
 			if( $position == 'bottom' )
 				echo $individual_tabs;
 		
-			// $content = (substr($content,0,6) =="<br />" ? substr( $content,6 ): $content);
-			// $content = str_replace("]<br />","]",$content); ?>
-			<ul class="<?php echo $list_class ?>">
+
+			if ( is_array( self::$shortcode_data ) && count( self::$shortcode_data ) > 0 ) {
+			?>
+				<ul class="<?php echo $list_class ?>">
+				<?php
+				$list_counter_class = 0;
+
+				foreach( self::$shortcode_data[self::$current_tab_id] as $tab_data ): ?>
+					<li <?php if( $tab_data['class']): ?> class="<?php echo $tab_data['class'];?>  " <?php echo $list_attr; ?> <?php endif; ?> ><a href="#<?php echo $tab_data['id']; ?>" <?php echo $list_link_attr; ?>><?php echo $tab_data['title']; ?></a></li><?php 
+				$list_counter_class++;
+				endforeach;
+
+				?></ul>
 			<?php
-			$list_counter_class = 0;
-			foreach( self::$shortcode_data[self::$current_tab_id] as $tab_data ): ?>
-				<li <?php if( $tab_data['class']): ?> class="<?php echo $tab_data['class'];?>  " <?php echo $list_attr; ?> <?php endif; ?> ><a href="#<?php echo $tab_data['id']; ?>" <?php echo $list_link_attr; ?>><?php echo $tab_data['title']; ?></a></li><?php 
-			$list_counter_class++;
-			endforeach;
-			
-			?></ul><?php 
-			
+			} 
 			
 			if( $position != 'bottom' )
 				echo $individual_tabs;
@@ -248,6 +251,14 @@ class OLT_Tab_Shortcode {
 		wp_register_style( 'tab-shortcode',  plugins_url('tab'.$suffix.'.css', __FILE__) );
 		wp_register_script( 'tab-shortcode' , plugins_url('tab'.$suffix.'.js', __FILE__), array('jquery', 'jquery-ui-core', 'jquery-ui-tabs'), '1.0', true );
 		
+		if ( ! is_array( self::$tabs_support ) ) {
+			self::$tabs_support = array();
+		}
+
+		if ( count( self::$tabs_support ) === 0 ) {
+			return;
+		}
+
 		if( self::$tabs_support[0] == 'twitter-bootstrap' ):
 			require_once( 'support/twitter-bootstrap/action.php' );
 			
@@ -259,7 +270,7 @@ class OLT_Tab_Shortcode {
 	}
 	
 	static function enqueue_style() {
-		if( empty( self::$tabs_support ) )
+		// if( empty( self::$tabs_support ) )
 			wp_enqueue_style( 'tab-shortcode' );
 		
 	}
@@ -276,17 +287,16 @@ class OLT_Tab_Shortcode {
 		if ( ! self::$add_script )
 			return;
 		
-		
 		if( empty( self::$tabs_support ) ||  'style-only' == self::$tabs_support[0]) {
 			wp_enqueue_script( 'tab-shortcode' );
 			wp_localize_script( 'tab-shortcode', 'tabs_shortcode', self::$shortcode_js_data );
     	}
-    	
-    	if( self::$tabs_support[0] == 'twitter-bootstrap' ) {
-    		
-    		wp_enqueue_script( 'twitter-tab-shortcode' );
-			
-    	}
+
+		if ( array_key_exists( 0, self::$tabs_support ) && self::$tabs_support[0] === 'twitter-bootstrap' ) {
+			wp_enqueue_script( 'twitter-tab-shortcode' );
+			wp_enqueue_script( 'tab-shortcode' );
+			wp_localize_script( 'tab-shortcode', 'tabs_shortcode', self::$shortcode_js_data );
+		}
 	}
 }
 // lets play
