@@ -2,8 +2,8 @@
 Contributors: enej, ctlt-dev, oltdev
 Tags: tab, shortcode
 Requires at least: 3.4
-Tested up to: 3.5
-Stable tag: 2.0.2
+Tested up to: 6.7.1
+Stable tag: 3.0.0
 License: GPLv2 or later
 
 Lets you add tabs to your post and pages using a shortcode. 
@@ -49,7 +49,6 @@ Please add `add_theme_support( 'tabs', 'style-only' );` to you functions file. P
  `add_action('after_setup_theme','bones_theme_support');` 
 
 This will tell the plugin to not include tab styling to your theme. 
-
 
  
 == Frequently Asked Questions ==
