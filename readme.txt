@@ -3,7 +3,7 @@ Contributors: enej, ctlt-dev, oltdev
 Tags: tab, shortcode
 Requires at least: 3.4
 Tested up to: 6.7.1
-Stable tag: 3.0.0
+Stable tag: 3.0.1
 License: GPLv2 or later
 
 Lets you add tabs to your post and pages using a shortcode. 

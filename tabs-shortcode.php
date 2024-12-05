@@ -4,7 +4,7 @@
  * Plugin URI: http://wordpress.org/extend/plugins/tabs-shortcode/
  * Description: Create shortcode that enables you to create tabs on your pages and posts
  * Author: CTLT
- * Version: 3.0.0
+ * Version: 3.0.1
  * Author URI: http://ctlt.ubc.ca
  * License:     GPL v2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
