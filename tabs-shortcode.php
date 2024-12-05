@@ -137,7 +137,7 @@ class OLT_Tab_Shortcode {
 
 		++self::$shortcode_count;
 
-		return '<div id="' . esc_attr( $id ) . '" ' . esc_attr( $class_atr ) . ' >' . wp_kses_post( apply_filters( 'tab_content', $content ) ) . '</div>';
+		return '<div id="' . esc_attr( $id ) . '" ' . esc_attr( $class_atr ) . ' >' . apply_filters( 'tab_content', $content ) . '</div>';
 	}
 
 
@@ -208,7 +208,7 @@ class OLT_Tab_Shortcode {
 		<?php
 
 		if ( $position == 'bottom' ) {
-			echo wp_kses_post( $individual_tabs );
+			echo $individual_tabs;
 		}
 
 		if ( is_array( self::$shortcode_data ) && count( self::$shortcode_data ) > 0 ) {
@@ -223,7 +223,7 @@ class OLT_Tab_Shortcode {
 					<?php
 					if ( $tab_data['class'] ) :
 						?>
-						class="<?php echo esc_attr( $tab_data['class'] ); ?>  " <?php echo esc_attr( $list_attr ); ?> <?php endif; ?> ><a href="#<?php echo esc_attr( $tab_data['id'] ); ?>" <?php echo esc_attr( $list_link_attr ); ?>><?php echo wp_kses_post( $tab_data['title'] ); ?></a></li>
+						class="<?php echo esc_attr( $tab_data['class'] ); ?>  " <?php echo esc_attr( $list_attr ); ?> <?php endif; ?> ><a href="#<?php echo esc_attr( $tab_data['id'] ); ?>" <?php echo esc_attr( $list_link_attr ); ?>><?php echo esc_textarea( $tab_data['title'] ); ?></a></li>
 									<?php
 									++$list_counter_class;
 				endforeach;
@@ -234,7 +234,7 @@ class OLT_Tab_Shortcode {
 		}
 
 		if ( $position != 'bottom' ) {
-			echo wp_kses_post( $individual_tabs );
+			echo $individual_tabs;
 		}
 
 		?>
