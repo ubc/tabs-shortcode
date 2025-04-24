@@ -223,7 +223,7 @@ class OLT_Tab_Shortcode {
 					<?php
 					if ( $tab_data['class'] ) :
 						?>
-						class="<?php echo esc_attr( $tab_data['class'] ); ?>  " <?php echo esc_attr( $list_attr ); ?> <?php endif; ?> ><a href="#<?php echo esc_attr( $tab_data['id'] ); ?>" <?php echo esc_attr( $list_link_attr ); ?>><?php echo esc_textarea( $tab_data['title'] ); ?></a></li>
+						class="<?php echo esc_attr( $tab_data['class'] ); ?>  " <?php echo esc_attr( $list_attr ); ?> <?php endif; ?> ><a href="#<?php echo esc_attr( $tab_data['id'] ); ?>" <?php echo esc_attr( $list_link_attr ); ?>><?php echo wp_kses_post( $tab_data['title'] ); ?></a></li>
 									<?php
 									++$list_counter_class;
 				endforeach;
